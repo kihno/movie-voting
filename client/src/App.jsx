@@ -16,7 +16,7 @@ function App() {
       </header>
       {movies.map(movie => {
         return (
-          <div className='movie-box'>
+          <div className='movie-box' key={movie.id}>
             <div className='movie-box-header'></div>
             <div className='movie-box-body'>
               <img alt={movie.name} className='movie-image' src={movie.img} />
@@ -24,7 +24,7 @@ function App() {
             <div className='movie-box-footer'>
               {movie.name}
               <div className='like-button'>
-                <i class="fa fa-heart" style={{"color": "red"}}aria-hidden="true"></i>
+                <i className="fa fa-heart" style={{"color": "red"}}aria-hidden="true"></i>
               </div>
             </div>
           </div>
