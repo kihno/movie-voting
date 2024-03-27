@@ -1,35 +1,47 @@
+import { gql, useSubscription } from '@apollo/client'
+import LikeComponent from './LikeComponent'
 
-function App() {
-  const movies = [
-    {
-      name: 'Snatch',
-      img: 'https://occ-0-3934-3211.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABVJgO06RKuruJpcyezdM43Ai2ZjvNDmtbnwUXVtvXVhhvpL0tvhr4s9e3j8UojFCLao5a7v8Dg5kti1vFKcA0ldZXWnnC03nBRIt.jpg?r=cbf',
-      likes: 10,
-      state: true,
+const GET_MOVIES = gql`
+  subscription {
+    movies {
+      id
+      created_at
+      name
+      image
     }
-  ];
+  }
+`
+function App() {
+  const { data, loading } = useSubscription(GET_MOVIES)
+
+  if (loading) {
+    return <div>loading...</div>
+  }
 
   return (
     <div className='App'>
       <header className='App-header'>
         <p>Movies List</p>
       </header>
-      {movies.map(movie => {
+      {
+        data && data.movies && data.movies.length ?
+        data.movies.map(movie => {
         return (
           <div className='movie-box' key={movie.id}>
             <div className='movie-box-header'></div>
             <div className='movie-box-body'>
-              <img alt={movie.name} className='movie-image' src={movie.img} />
+              <img alt={movie.name} className='movie-image' src={movie.image} />
             </div>
             <div className='movie-box-footer'>
               {movie.name}
               <div className='like-button'>
-                <i className="fa fa-heart" style={{"color": "red"}}aria-hidden="true"></i>
+                <LikeComponent movie={movie} />
               </div>
             </div>
           </div>
         )
-      })}
+      }) : "No movies"
+    }
     </div>
   )
 }
