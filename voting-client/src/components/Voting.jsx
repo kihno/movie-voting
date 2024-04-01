@@ -1,15 +1,12 @@
-const Voting = ({pair}) => {
-    const getPair = () => {
-        return pair || []
-    }
+import Vote from "./Vote"
 
+const Voting = ({winner, pair, vote, hasVoted}) => {
     return(
-        <div className="voting">
-            {getPair().map((entry, index) =>
-                <button key={index}>
-                    <h1>{entry}</h1>
-                </button>
-            )}
+        <div>
+            {winner ?
+                <div className="winner">Winner is {winner}</div> :
+                <Vote pair={pair} vote={vote} hasVoted={hasVoted} />
+            }
         </div>
     )
 }
